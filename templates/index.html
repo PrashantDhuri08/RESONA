@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Music Recognition App</title>
+    <style>
+        * {
+            background-color: black;
+            color: white;
+            margin: 0;
+            outline: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .content {
+            height: 70%;
+            width: 60%;
+        }
+
+        .img {
+            padding-left: 40px;
+            width: 40%;
+            height: 70%;
+        }
+
+        button {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        img {
+            width: 260px;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Identify Any Songs, Anytime</h1>
+            <p>Our powerful recognition app lets you quickly identify music playing around you. No more wondering what the catchy tune is!</p>
+
+            <!-- File upload for the hummed melody -->
+            <input type="file" id="humming-file" accept="audio/mp3" />
+
+            <!-- Text input for the folder path -->
+            <input type="text" id="folder-path" placeholder="Enter the folder path containing songs" />
+
+            <!-- Button to trigger comparison -->
+            <button onclick="compareHumming()">Compare Humming</button>
+            <h2 id="sng">Song recognized : </h2>
+        </div>
+        <div class="img">
+            <img src="/static/music-svgrepo-com.svg" alt="Music Recognition">
+        </div>
+    </div>
+
+    <script>
+        function compareHumming() {
+            const resultElement = document.getElementById('sng');
+            const fileInput = document.getElementById('humming-file');
+            const folderPath = document.getElementById('folder-path').value;
+
+            if (fileInput.files.length === 0) {
+                alert('Please upload a humming file.');
+                return;
+            }
+
+            if (!folderPath) {
+                alert('Please enter the folder path.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('folderPath', folderPath);
+
+            fetch('/compare', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    resultElement.innerHTML = `Song recognized: ${data.result}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
