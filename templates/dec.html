@@ -3,12 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Song Comparison</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <title>Song Recognition</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -32,9 +27,9 @@
       h1 {
         text-align: center;
         font-size: 25px;
-        color: #944b6d;
-        font-weight: 100;
-        text-shadow: 2px 2px 5px #000000;
+        color: #005ab5;
+        font-weight: bolder;
+        text-shadow: 1px 1px 5px #000000;
         padding-bottom: 30px;
       }
       label {
@@ -72,30 +67,30 @@
   </head>
   <body>
     <div class="container">
-      <h1>Recognize Your Song</h1>
-      <form id="compareForm" enctype="multipart/form-data">
-        <label for="folderPath">Folder Path</label>
+      <h1>Song Recognition</h1>
+      <form id="recognizeForm" enctype="multipart/form-data">
+        <!-- <label for="folderPath">Folder Path</label>
         <input
           type="text"
           id="folderPath"
           name="folderPath"
-          placeholder="Enter the path to the folder with songs"
-        />
+          placeholder="Enter the folder path"
+        /> -->
 
-        <label for="file">Upload sample File</label>
+        <label for="file">Upload File</label>
         <input type="file" id="file" name="file" />
 
-        <button type="button" onclick="submitForm()">Compare</button>
+        <button type="button" onclick="submitForm()">Recognize Song</button>
       </form>
       <div class="result" id="result"></div>
     </div>
 
     <script>
       function submitForm() {
-        const form = document.getElementById("compareForm");
+        const form = document.getElementById("recognizeForm");
         const formData = new FormData(form);
 
-        fetch("/compare", {
+        fetch("/recognize", {
           method: "POST",
           body: formData,
         })
@@ -103,10 +98,10 @@
           .then((data) => {
             const resultDiv = document.getElementById("result");
             if (data.error) {
-              resultDiv.innerHTML = `<p style="color:red;">${data.error}</p>`;
+              resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
             } else {
-              console.log(data.result.message);
-              resultDiv.innerHTML = `<p>${data.result.message}</p>`;
+              resultDiv.innerHTML = `<p>${data.result}</p>`;
+              console.log(data.result);
             }
           })
           .catch((error) => {

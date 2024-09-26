@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Recorder</title>
+  </head>
+  <body>
+    <div>
+      <button id="startBtn">Start Recording</button>
+      <button id="stopBtn" disabled>Stop Recording</button>
+      <p id="status"></p>
+    </div>
+
+    <script>
+      let mediaRecorder;
+      let audioChunks = [];
+      const startBtn = document.getElementById("startBtn");
+      const stopBtn = document.getElementById("stopBtn");
+      const statusText = document.getElementById("status");
+
+      startBtn.addEventListener("click", async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = (event) => {
+          audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/mpeg" });
+          uploadAudio(audioBlob);
+          audioChunks = [];
+        };
+
+        mediaRecorder.start();
+        statusText.textContent = "Recording...";
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      });
+
+      stopBtn.addEventListener("click", () => {
+        mediaRecorder.stop();
+        statusText.textContent = "Processing...";
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+      });
+
+      function uploadAudio(blob) {
+        const formData = new FormData();
+        formData.append("file", blob, "recording.mp3"); // Append the file as 'recording.mp3'
+
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+
+          .then((data) => {
+            statusText.textContent = "Upload successful!";
+            console.log("Success:", data);
+          })
+          .catch((error) => {
+            statusText.textContent = "Upload failed!";
+            console.error("Error:", error);
+          });
+      }
+    </script>
+  </body>
+</html>

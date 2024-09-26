@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="Resona using api" />
+    <title>Song Recognition</title>
+  </head>
+  <body>
+    <h1>Upload MP3 for Song Recognition</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".mp3" required />
+      <button type="submit">Upload</button>
+      <div class="image">
+        <img id="songImage" src="" alt="album-img" />
+        <!-- <a id="ply" href=""><button>play</button></a> -->
+      </div>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+      const imag = document.querySelector("#image");
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const resultDiv = document.getElementById("result");
+        const result = await response.json();
+
+        if (result.error) {
+          resultDiv.textContent = `Error: ${result.error}`;
+        } else {
+          // console.log(result);
+          console.log(result[1]);
+
+          console.log(result[1].track.share.subject);
+          const imaglink = result[1].track.share.image;
+          // const url = result[1].track.share.link;
+          console.log(imaglink);
+          songImage.src = imaglink;
+          songImage.style.display = "block";
+
+          //   resultDiv.textContent = `Result: ${JSON.stringify(result)}`;
+        }
+      });
+    </script>
+  </body>
+</html>
