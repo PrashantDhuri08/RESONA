@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Recorder - ReSoNa</title>
+    <style>
+      .controls {
+        margin: 20px;
+      }
+      #recordButton,
+      #stopButton,
+      #recognizeButton {
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Audio Recorder</h1>
+    <div class="controls">
+      <button id="recordButton">Start Recording</button>
+      <button id="stopButton" disabled>Stop Recording</button>
+      <button id="recognizeButton" disabled>Recognize Song</button>
+    </div>
+
+    <p id="status">Status: Idle</p>
+
+    <script>
+      let recordButton = document.getElementById("recordButton");
+      let stopButton = document.getElementById("stopButton");
+      let recognizeButton = document.getElementById("recognizeButton");
+      let status = document.getElementById("status");
+
+      let audioBlob = null;
+      let mediaRecorder;
+
+      // Start recording
+      recordButton.addEventListener("click", function () {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+          status.textContent = "Status: Recording...";
+          recordButton.disabled = true;
+          stopButton.disabled = false;
+
+          let audioChunks = [];
+          mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+          };
+
+          mediaRecorder.onstop = () => {
+            audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
+            status.textContent = "Status: Recording Stopped";
+            stopButton.disabled = true;
+            recognizeButton.disabled = false;
+          };
+        });
+      });
+
+      // Stop recording
+      stopButton.addEventListener("click", function () {
+        mediaRecorder.stop();
+      });
+
+      // Recognize song using the backend
+      recognizeButton.addEventListener("click", function () {
+        if (!audioBlob) {
+          alert("No audio recorded!");
+          return;
+        }
+
+        status.textContent = "Status: Recognizing...";
+
+        let formData = new FormData();
+        formData.append("file", audioBlob, "audio.mp3");
+
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              status.textContent = `Error: ${data.error}`;
+            } else {
+              console.log(data);
+              //   console.log(data[1].share.tract)
+              status.textContent = `Song Recognized: ${data[1].track.title} by ${data[1].track.subtitle}`;
+            }
+          })
+          .catch((error) => {
+            status.textContent = `Error: ${error.message}`;
+          });
+      });
+    </script>
+  </body>
+</html>

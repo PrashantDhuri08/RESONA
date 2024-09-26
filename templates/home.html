@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="Resona using api" />
+    <title>Song Recognition</title>
+    <link rel="stylesheet" href="/static/home.css" />
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        outline: 0;
+        /* padding: 5rem; */
+        /* padding: 2px; */
+        /* overflow: hidden; */
+        /* overflow:scroll; */
+      }
+
+      .navbar {
+        height: 5rem;
+        background-color: rgb(30, 30, 30);
+        width: 100vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgb(255, 255, 232);
+      }
+
+      .navbar .options ul {
+        display: flex;
+        list-style-type: none;
+        /* padding: 2px; */
+        /* margin: 10px;; */
+      }
+
+      li {
+        padding: 10px;
+        /* width: auto; */
+        /* background-color: blueviolet; */
+        margin: 10px;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .pd {
+        color: #fff;
+        line-height: 2;
+        position: relative;
+      }
+
+      .pd::before {
+        content: "";
+        width: 0;
+        height: 2px;
+        border-radius: 2px;
+        background-color: #fff;
+        position: absolute;
+        bottom: -0.25rem;
+        right: 0;
+        transition: right 0.4s, width 0.4s, left 0.4s;
+      }
+
+      .pd:hover::before {
+        width: 100%;
+        left: 0;
+      }
+
+      /* a{
+   text-decoration: none;
+   color: rgb(155, 137, 137);
+  }
+  
+  a:hover{
+      font-size: larger;
+      color: rgb(208, 132, 33);
+  } */
+
+      .logo {
+        padding: 40px;
+        margin-bottom: 2;
+      }
+
+      img {
+        object-fit: cover;
+        height: 250px;
+        width: 250px;
+      }
+      button {
+        margin: 20px;
+        border-radius: 4px;
+        background-color: rgb(182, 133, 29);
+        padding: 7px;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        box-shadow: 5px 3px;
+      }
+
+      .content {
+        display: flex;
+        background-color: #404040;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .about_sec {
+        /* display: flex; */
+        justify-content: center;
+        /* padding: 30px; */
+        padding-top: 30px;
+        /* align-items: center; */
+        text-align: center;
+        /* margin-top: 20px */
+        font-size: 10px;
+        color: #ffffff;
+        background-color: #404040;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .feat {
+        list-style: none;
+        margin-right: 10px;
+        color: #a8b9ff;
+        margin-right: 30px;
+        font-size: 20px;
+      }
+
+      .abt {
+        color: #000000;
+        font-size: 30px;
+        /* margin-top: 30px; */
+      }
+
+      .content form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        --transition: 350ms;
+        --folder-W: 120px;
+        --folder-H: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 10px;
+        background: linear-gradient(135deg, #6dd5ed, #2193b0);
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        height: calc(var(--folder-H) * 1.7);
+        position: relative;
+      }
+
+      h1 {
+      }
+
+      .folder {
+        position: absolute;
+        top: -20px;
+        left: calc(50% - 60px);
+        animation: float 2.5s infinite ease-in-out;
+        transition: transform var(--transition) ease;
+      }
+
+      .folder:hover {
+        transform: scale(1.05);
+      }
+
+      .folder .front-side,
+      .folder .back-side {
+        position: absolute;
+        transition: transform var(--transition);
+        transform-origin: bottom center;
+      }
+
+      .folder .back-side::before,
+      .folder .back-side::after {
+        content: "";
+        display: block;
+        background-color: white;
+        opacity: 0.5;
+        z-index: 0;
+        width: var(--folder-W);
+        height: var(--folder-H);
+        position: absolute;
+        transform-origin: bottom center;
+        border-radius: 15px;
+        transition: transform 350ms;
+        z-index: 0;
+      }
+
+      .container:hover .back-side::before {
+        transform: rotateX(-5deg) skewX(5deg);
+      }
+      .container:hover .back-side::after {
+        transform: rotateX(-15deg) skewX(12deg);
+      }
+
+      .folder .front-side {
+        z-index: 1;
+      }
+
+      .container:hover .front-side {
+        transform: rotateX(-40deg) skewX(15deg);
+      }
+
+      .folder .tip {
+        background: linear-gradient(135deg, #ff9a56, #ff6f56);
+        width: 80px;
+        height: 20px;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: -10px;
+        z-index: 2;
+      }
+
+      .folder .cover {
+        background: linear-gradient(135deg, #ffe563, #ffc663);
+        width: var(--folder-W);
+        height: var(--folder-H);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+
+      .custom-file-upload {
+        font-size: 1.1em;
+        color: #ffffff;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background var(--transition) ease;
+        display: inline-block;
+        width: 60%;
+        padding: 10px 35px;
+        position: relative;
+      }
+
+      .custom-file-upload:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .custom-file-upload input[type="file"] {
+        display: none;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+
+        50% {
+          transform: translateY(-20px);
+        }
+
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      button {
+        height: 36px;
+        margin: 30px;
+        width: 120px;
+        background: #524646;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        cursor: pointer;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        font-family: Consolas, Courier New, monospace;
+        border: solid #404c5d 1px;
+        font-size: 16px;
+        color: rgb(224, 218, 227);
+        -webkit-transition: 500ms;
+        transition: 500ms;
+        border-radius: 5px;
+        background: linear-gradient(145deg, #2e2d2d, #212121);
+        -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+          inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+        box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+          inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+      }
+
+      button:hover {
+        -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
+        box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
+        color: #cc00ff;
+        -webkit-transition: 500ms;
+        transition: 500ms;
+      }
+
+      button:active {
+        -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+        box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+        color: #d6d6d6;
+        -webkit-transition: 100ms;
+        transition: 100ms;
+      }
+    </style>
+    <div class="navbar">
+      <div class="options">
+        <ul>
+          <li><a href="#home" class="pd">Home</a></li>
+          <li><a href="./record.html" class="pd">Record</a></li>
+          <li><a href="./about.html" class="pd">About</a></li>
+        </ul>
+      </div>
+      <div class="home">
+        <button class="contact">Contact us</button>
+      </div>
+    </div>
+    <div class="content">
+      <!-- <h1>Upload MP3 for Song Recognition</h1> -->
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <!-- <input type="file" name="file" accept=".mp3" required /> -->
+
+        <div class="container">
+          <div class="folder">
+            <div class="front-side">
+              <div class="tip"></div>
+              <div class="cover"></div>
+            </div>
+            <div class="back-side cover"></div>
+          </div>
+          <label class="custom-file-upload">
+            <input
+              class="title"
+              type="file"
+              name="file"
+              accept="mp3"
+              required
+            />
+            Upload audio clip
+          </label>
+        </div>
+
+        <button type="submit">Upload</button>
+        <div class="image">
+          <img id="songImage" src="" alt="album-img" />
+          <!-- <a id="ply" href=""><button>play</button></a> -->
+        </div>
+      </form>
+
+      <div id="result"></div>
+    </div>
+
+    <script>
+      const imag = document.querySelector("#image");
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const resultDiv = document.getElementById("result");
+        const result = await response.json();
+
+        if (result.error) {
+          resultDiv.textContent = `Error: ${result.error}`;
+        } else {
+          // console.log(result);
+          console.log(result[1]);
+
+          console.log(result[1].track.share.subject);
+          const imaglink = result[1].track.share.image;
+          // const url = result[1].track.share.link;
+          console.log(imaglink);
+          songImage.src = imaglink;
+          songImage.style.display = "block";
+
+          const song = document.createElement("p");
+          const song_cover = document.createElement("img");
+          const resdiv = document.getElementById("result");
+
+          song.innerHTML = result[1].track.share.subject;
+
+          //   resdiv.append(song_cover)
+
+          resdiv.append(song);
+
+          //   resultDiv.textContent = `Result: ${JSON.stringify(result)}`;
+        }
+      });
+    </script>
+  </body>
+</html>
