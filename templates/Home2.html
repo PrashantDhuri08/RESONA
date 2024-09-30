@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="Home page" />
+    <title>Resona - Music recognizer</title>
+    <link rel="stylesheet" href="{{url_for("static", filename = "home2.css" )}}" />
+  </head>
+    <body>
+    <div class="navbar">
+      <div class="logo">Resona</div>
+      <div class="list">
+        <ul>
+          <a href="/"></a><li>Home</li></a>
+         <a href="/identify"> <li>Identify</li></a>
+         <a href="/about"><li>About</li></a>
+          <a href="/"></a><button class="in">?</button></a>
+        </ul>
+      </div>
+    </div>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+
+    <div class="content">
+      <div class="box">
+       
+          <h1 class="Head">What's that Song?</h1>
+          <p>Upload a sample to identify music instantaneously</p>
+          <!-- <input type="file" placeholder="file" /> -->
+          <div class="file-drop-area">
+            <span class="fake-btn">Choose files</span>
+            <span class="file-msg">or drag and drop files here</span>
+            <input
+              class="file-input"
+              type="file"
+              name="file"
+              accept="mp3"
+              required
+            />
+          </div>
+
+          <button class="rec" type="submit">Recognize</button>
+
+          <div class="image">
+            <img id="songImage" src="" alt="album-img" />
+            <!-- <a id="ply" href=""><button>play</button></a> -->
+          </div>
+        
+      </div>
+
+      <div class="result"></div>
+
+    </form>
+
+      <h1 class="inst">
+        WAV and Mp3 format are supported (WAV is preffered for accurate results
+        ). 15 sec minimum duration.
+      </h1>
+    </div>
+  </body>
+
+  <script>
+
+    const boxElement = document.querySelector(".box");
+    const imag = document.querySelector("#image");
+    const form = document.querySelector("form");
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const resultDiv = document.getElementById("result");
+      const result = await response.json();
+
+      if (result.error) {
+        resultDiv.textContent = `Error: ${result.error}`;
+      } else {
+
+        boxElement.classList.add("fade-in");
+
+        // console.log(result);
+        console.log(result[1]);
+
+        console.log(result[1].track.share.subject);
+        const imaglink = result[1].track.share.image;
+        // const url = result[1].track.share.link;
+        console.log(imaglink);
+        songImage.src = imaglink;
+        songImage.style.display = "block";
+
+        const song = document.createElement("p");
+
+        const resdiv = document.getElementById("result");
+
+        song.innerHTML = result[1].track.share.subject;
+
+        //   resdiv.append(song_cover)
+
+        resdiv.append(song);
+
+        //   resultDiv.textContent = `Result: ${JSON.stringify(result)}`;
+      }
+    });
+  </script>
+</html>
