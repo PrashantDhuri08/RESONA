@@ -7,9 +7,15 @@ app = Flask(__name__)
 def index():
     return render_template('Home2.html')
 
+
 @app.route('/about')
 def about():
     return render_template('About.html')
+
+
+@app.route('/record')
+def record():
+    return render_template('recordog.html')
 
 
 @app.route('/upload', methods=['POST'])

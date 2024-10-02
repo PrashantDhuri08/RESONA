@@ -2,10 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="Recording page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Audio Recorder - ReSoNa</title>
-    <link rel="stylesheet" href="/static/record.css">
-    <link rel="stylesheet" href="{{url_for("static", filename = "record.css" )}}" />
+    <link rel="stylesheet" href="/static/record.css" />
+    <link rel="stylesheet" href="{{url_for("static", filename = "record.css"
+    )}}" />
 
     <style>
       .controls {
@@ -21,41 +22,26 @@
     </style>
   </head>
   <body>
-    <div class="navbar">
-      <div class="logo">Resona</div>
-      <div class="list">
-        <ul>
-          <a href="/"></a><li>Home</li></a>
-          <a href="/rec"></a><li>Recording</li></a>
-         <a href="/identify"> <li>Identify</li></a>
-         <a href="/about"><li>About</li></a>
-          <a href="/"></a><button class="in">?</button></a>
-        </ul>
-      </div>
-    </div>
     <div class="content">
       <div class="box">
-    <h1>Audio Recorder</h1>
-    <div class="controls">
-      <button id="recordButton">Start Recording</button>
-      <button id="stopButton" disabled>Stop Recording</button>
-      <button id="recognizeButton" disabled>Recognize Song</button>
+        <h1>Audio Recorder</h1>
+        <div class="controls">
+          <button id="recordButton">Start Recording</button>
+          <button id="stopButton" disabled>Stop Recording</button>
+          <button id="recognizeButton" disabled>Recognize Song</button>
+        </div>
+
+        <p id="status">Status: Idle</p>
+        <img class="Songimg" src="" alt="" />
+      </div>
     </div>
-    <div class="result">
-      <img id="songImage" src="" alt="album-img" />
-      <p >loremmm</p>
-    </div>
-    
-  </div>
-  </div>
 
     <script>
       let recordButton = document.getElementById("recordButton");
       let stopButton = document.getElementById("stopButton");
       let recognizeButton = document.getElementById("recognizeButton");
       let status = document.getElementById("status");
-      const Songimg = document.querySelector("#songImage" );
-
+      const Songimg = document.getElementsByClassName("Songimg");
 
       let audioBlob = null;
       let mediaRecorder;
@@ -95,8 +81,7 @@
           return;
         }
 
-        // status.textContent = "Status: Recognizing...";
-        console.log("recognizingggg");
+        status.textContent = "Status: Recognizing...";
 
         let formData = new FormData();
         formData.append("file", audioBlob, "audio.mp3");
@@ -110,13 +95,12 @@
             if (data.error) {
               status.textContent = `Error: ${data.error}`;
             } else {
+              const imgurl = data[1].track.share.image;
               console.log(data);
+
+              Songimg.src = imgurl;
+              Songimg.style.display = "block";
               //   console.log(data[1].share.tract)
-              const imaglink = data[1].track.share.image;
-              // const url = result[1].track.share.link;
-              //console.log(imaglink);
-              songImage.src = imaglink;
-              songImage.style.display = "block";
               status.textContent = `Song Recognized: ${data[1].track.title} by ${data[1].track.subtitle}`;
             }
           })

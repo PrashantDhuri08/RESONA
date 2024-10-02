@@ -5,6 +5,7 @@
     <meta name="viewport" content="Home page" />
     <title>Resona - Music recognizer</title>
     <link rel="stylesheet" href="{{url_for("static", filename = "home2.css" )}}" />
+    <link rel="stylesheet" href="/static/home2.css">
   </head>
     <body>
     <div class="navbar">
@@ -12,6 +13,7 @@
       <div class="list">
         <ul>
           <a href="/"></a><li>Home</li></a>
+          <a href="/record"><li>Recording</li></a>
          <a href="/identify"> <li>Identify</li></a>
          <a href="/about"><li>About</li></a>
           <a href="/"></a><button class="in">?</button></a>
@@ -19,7 +21,7 @@
       </div>
     </div>
 
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <form action="/upload" method="post" enctype="multipart/form-data" class="form-content">
 
     <div class="content">
       <div class="box">
@@ -41,21 +43,21 @@
 
           <button class="rec" type="submit">Recognize</button>
 
-          <div class="image">
+          <div class="result">
             <img id="songImage" src="" alt="album-img" />
+
+            <!-- <p class="title"></p>
+            <p class="authors"></p> -->
             <!-- <a id="ply" href=""><button>play</button></a> -->
           </div>
         
       </div>
-
-      <div class="result"></div>
-
     </form>
 
-      <h1 class="inst">
+      <p class="inst">
         WAV and Mp3 format are supported (WAV is preffered for accurate results
         ). 15 sec minimum duration.
-      </h1>
+      </p>
     </div>
   </body>
 
@@ -64,6 +66,12 @@
     const boxElement = document.querySelector(".box");
     const imag = document.querySelector("#image");
     const form = document.querySelector("form");
+    const Songimg = document.querySelector("#songImage" );
+    const title= document.querySelector(".title");
+    const author = document.querySelector(".authors");
+
+
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
@@ -79,8 +87,9 @@
       if (result.error) {
         resultDiv.textContent = `Error: ${result.error}`;
       } else {
-
+        //formContent.style.display = "none"; 
         boxElement.classList.add("fade-in");
+        Songimg.classList.add("fade_out");
 
         // console.log(result);
         console.log(result[1]);
@@ -88,21 +97,17 @@
         console.log(result[1].track.share.subject);
         const imaglink = result[1].track.share.image;
         // const url = result[1].track.share.link;
-        console.log(imaglink);
+        //console.log(imaglink);
         songImage.src = imaglink;
         songImage.style.display = "block";
+ 
+        const songTitle = result[1].track.title; 
+        resultDiv.classList.add("exp");
 
-        const song = document.createElement("p");
 
-        const resdiv = document.getElementById("result");
+       //title.textContent+= `Title : ${songTitle}`
 
-        song.innerHTML = result[1].track.share.subject;
-
-        //   resdiv.append(song_cover)
-
-        resdiv.append(song);
-
-        //   resultDiv.textContent = `Result: ${JSON.stringify(result)}`;
+         //resultDiv.textContent = `Title: ${songTitle}`;
       }
     });
   </script>

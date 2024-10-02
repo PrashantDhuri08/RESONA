@@ -5,11 +5,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('szm.html')
+    return render_template('Home2.html')
+
+@app.route('/about')
+def about():
+    return render_template('About.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # Check if the POST request has the file part
+
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
 
