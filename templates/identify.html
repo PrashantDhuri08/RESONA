@@ -226,8 +226,10 @@
       <div class="list">
         <ul>
           <a href="/"><li>Home</li></a>
+          <a href="/record"><li>Recording</li></a>
+
           <a href="/identify"> <li>Identify</li></a>
-          <a href=""><li>About</li></a>
+          <a href="/about"><li>About</li></a>
           <button class="in">?</button>
         </ul>
       </div>
@@ -235,11 +237,24 @@
 
     <div class="content">
       <div class="box">
-        <h1>Upload File</h1>
+        <h1
+          style="
+            font-size: 40px;
+            color: rgb(135, 130, 123);
+            text-shadow: 2px 2px black;
+          "
+        >
+          Upload File
+        </h1>
         <form id="recognizeForm" enctype="multipart/form-data">
           <form class="form">
-            <span class="form-title">Upload your file</span>
-            <p class="form-paragraph">File should be an image</p>
+            <!-- <span class="form-title">Upload your file</span> -->
+            <p
+              class="form-paragraph"
+              style="text-align: center; color: #131415"
+            >
+              File should be in WAV format
+            </p>
             <label for="file-input" class="drop-container">
               <span class="drop-title">Drop files here</span>
               or

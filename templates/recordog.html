@@ -22,6 +22,18 @@
     </style>
   </head>
   <body>
+    <div class="navbar">
+      <div class="logo">Resona</div>
+      <div class="list">
+        <ul>
+          <a href="/"><li>Home</li></a>
+          <a href="/record"><li>Recording</li></a>
+          <a href="/ind"> <li>Identify</li></a>
+          <a href="/about"><li>About</li></a>
+          <a href="/"><button class="in">?</button></a>
+        </ul>
+      </div>
+    </div>
     <div class="content">
       <div class="box">
         <h1>Audio Recorder</h1>
@@ -31,12 +43,17 @@
           <button id="recognizeButton" disabled>Recognize Song</button>
         </div>
 
-        <p id="status">Status: Idle</p>
+        <p id="status">Idle</p>
         <img class="Songimg" src="" alt="" />
       </div>
+      <p class="inst">
+        This interface allows users to record audio, stop the recording, and
+        recognize songs using the recorded audio through a backend API.
+      </p>
     </div>
 
     <script>
+      const boxElement = document.querySelector(".box");
       let recordButton = document.getElementById("recordButton");
       let stopButton = document.getElementById("stopButton");
       let recognizeButton = document.getElementById("recognizeButton");
@@ -95,11 +112,13 @@
             if (data.error) {
               status.textContent = `Error: ${data.error}`;
             } else {
+              boxElement.classList.add("fade-in");
+
               const imgurl = data[1].track.share.image;
               console.log(data);
 
               Songimg.src = imgurl;
-              Songimg.style.display = "block";
+              // Songimg.style.display = "block";
               //   console.log(data[1].share.tract)
               status.textContent = `Song Recognized: ${data[1].track.title} by ${data[1].track.subtitle}`;
             }

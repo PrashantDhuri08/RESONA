@@ -1,0 +1,229 @@
+* {
+  margin: 0;
+  font-size: large;
+}
+
+.navbar {
+  border-bottom: solid rgb(106, 110, 100);
+  display: flex;
+  width: 100vw;
+  background-color: rgb(25, 27, 26);
+  height: 80px;
+  color: azure;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.in {
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+  margin-right: 10px;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.in:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  padding: 30px;
+}
+
+ul {
+  display: flex;
+  align-items: center;
+}
+
+li {
+  list-style: none;
+  padding: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+li:hover {
+  color: rgb(140, 140, 140);
+}
+
+.content {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(22, 19, 19);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.inst {
+  font-weight: lighter;
+  font-size: 15px;
+  margin-top: 20px;
+  color: rgb(255, 255, 255);
+}
+
+.box {
+  position: relative;
+  height: 70%;
+  width: 70%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  background-image: url(/static/Logo.jpg);
+  background-size: cover;
+  transition: 0.6s ease-in;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  /* opacity: 1; */
+
+  max-height: 70%; /* Initially no height */
+
+  max-width: 70%;
+  overflow: hidden;
+  transition: 4s ease-out, max-width 1s ease-in-out, max-height 1s ease-in-out;
+}
+
+/* From Uiverse.io by ercnersoy */
+#folderPath {
+  border: none;
+  padding: 20px;
+
+  border-radius: 1rem;
+  background: #fcfcfc;
+  box-shadow: 20px 20px 60px #c5c5c5, -20px -20px 60px #ffffff;
+  transition: 0.3s;
+}
+
+#folderPath:focus {
+  font-size: 20px;
+  outline-color: #e8e8e8;
+  background: #847b7b;
+  box-shadow: inset 20px 20px 60px #c5c5c5, inset -20px -20px 60px #ffffff;
+  transition: 0.3s;
+}
+
+form {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+/* .result {
+      height: 10%;
+      transition: height 1s ease-in-out;
+    }
+    .result.exp {
+      height: 100%;
+    } */
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+#songImage {
+  opacity: 0;
+  transition: 0.1s ease-in-out, opacity 1s ease-in-out;
+}
+
+#songImage.fade_out {
+  opacity: 1;
+}
+
+.box.fade-in {
+  max-width: 45%;
+  /* opacity: 1; Full visibility when animation completes */
+  max-height: 90%;
+}
+
+h1 {
+  font-size: 46px;
+  color: rgb(63, 55, 48);
+}
+
+p {
+  color: rgb(9, 7, 7);
+  font-size: 32px;
+}
+
+/* button {
+    height: 40px;
+    width: fit-content;
+    border-radius: 20px;
+    background-color: rgb(99, 110, 107);
+    box-shadow: 2px 2px;
+    border: none;
+  } */
+
+.rec {
+  width: 40%;
+  height: 30px;
+  font-size: small;
+  border: none;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.rec:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+/* 
+.file-drop-area {
+  backdrop-filter: blur(10px);
+  position: relative;
+  display: flex;
+  height: 50px;
+  align-items: center;
+  width: 50%;
+  max-width: 100%;
+  padding: 25px;
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  transition: 0.2s;
+}
+
+.file-drop-area:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.fake-btn {
+  flex-shrink: 0;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  padding: 8px 15px;
+  margin-right: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.file-msg {
+  font-size: small;
+  font-weight: 300;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#file {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.file-input:focus {
+  outline: none;
+} */

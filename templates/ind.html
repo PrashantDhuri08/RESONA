@@ -4,85 +4,72 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Song Recognition</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #b2a4d7;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      .container {
-        background-color: #fff;
-        padding: 20px;
-        border: solid rgb(48, 40, 40);
-        border-radius: 8px;
-        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-          0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      }
-      h1 {
-        text-align: center;
-        font-size: 25px;
-        color: #005ab5;
-        font-weight: bolder;
-        text-shadow: 1px 1px 5px #000000;
-        padding-bottom: 30px;
-      }
-      label {
-        font-weight: bold;
-        display: block;
-        margin-top: 10px;
-      }
-      input[type="text"],
-      input[type="file"] {
-        width: 90%;
-        padding: 10px;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        border: 1px solid #352020;
-        border-radius: 4px;
-      }
-      button {
-        width: 100%;
-        padding: 10px;
-        font-family: fantasy;
-        background-color: #000000;
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      button:hover {
-        background-color: #414141;
-      }
-      .result {
-        margin-top: 20px;
-      }
-    </style>
+    <link rel="stylesheet" href="/static/ind.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>Song Recognition</h1>
-      <form id="recognizeForm" enctype="multipart/form-data">
-        <label for="folderPath">Folder Path</label>
-        <input
+    <div class="navbar">
+      <div class="logo">Resona</div>
+      <div class="list">
+        <ul>
+          <a href="/"><li>Home</li></a>
+          <a href="/record"><li>Recording</li></a>
+          <a href="/ind"> <li>Identify</li></a>
+          <a href="/about"><li>About</li></a>
+          <a href="/"><button class="in">?</button></a>
+        </ul>
+      </div>
+    </div>
+    <div class="content">
+      <div class="box">
+        <h1 style="font-size: 40px; margin-top: 20px">
+          Custom Song identification
+        </h1>
+        <form id="recognizeForm" enctype="multipart/form-data">
+          <!-- <label for="folderPath">Folder Path</label> -->
+          <!-- <input
           type="text"
           id="folderPath"
           name="folderPath"
           placeholder="Enter the folder path"
-        />
+        /> -->
 
-        <label for="file">Upload File</label>
-        <input type="file" id="file" name="file" />
+          <input
+            type="text"
+            name="folderPath"
+            id="folderPath"
+            placeholder="Folder Path"
+          />
 
-        <button type="button" onclick="submitForm()">Recognize Song</button>
-      </form>
-      <div class="result" id="result"></div>
+          <!-- <label for="file">Upload File</label> -->
+          <input
+            style="
+              background-color: rgb(222, 225, 215);
+              border-radius: 20px;
+              padding: 20px;
+              width: 250px;
+            "
+            type="file"
+            id="file"
+            name="file"
+          />
+
+          <button class="rec" type="button" onclick="submitForm()">
+            Identify Song
+          </button>
+        </form>
+        <p class="result" id="result" style="color: black"></p>
+      </div>
+      <p
+        style="
+          font-weight: lighter;
+          font-size: 15px;
+          margin-top: 20px;
+          color: rgb(255, 255, 255);
+        "
+      >
+        This interface allows users to upload an audio file and specify a folder
+        path to identify songs from specific folder.
+      </p>
     </div>
 
     <script>
