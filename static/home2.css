@@ -3,6 +3,11 @@
   font-size: large;
 }
 
+.applogo {
+  height: 40px;
+  width: 40px;
+}
+
 .navbar {
   border-bottom: solid rgb(106, 110, 100);
   display: flex;
@@ -28,6 +33,8 @@
 }
 
 .logo {
+  display: flex;
+  align-items: center;
   padding: 30px;
 }
 
@@ -83,7 +90,7 @@ li:hover {
   max-height: 70%; /* Initially no height */
 
   max-width: 70%;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: 4s ease-out, max-width 1s ease-in-out, max-height 1s ease-in-out;
 }
 

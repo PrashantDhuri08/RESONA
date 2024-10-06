@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Audio Recorder - ReSoNa</title>
+    <link rel="icon" href="/static/applogo.png" />
     <link rel="stylesheet" href="/static/record.css" />
     <link rel="stylesheet" href="{{url_for("static", filename = "record.css"
     )}}" />
@@ -23,7 +24,9 @@
   </head>
   <body>
     <div class="navbar">
-      <div class="logo">Resona</div>
+      <div class="logo">
+        <img class="applogo" src="/static/applogo.png" alt="" />Resona
+      </div>
       <div class="list">
         <ul>
           <a href="/"><li>Home</li></a>
@@ -43,7 +46,7 @@
           <button id="recognizeButton" disabled>Recognize Song</button>
         </div>
 
-        <p id="status">Idle</p>
+        <p style="text-align: center" id="status">Idle</p>
         <img class="Songimg" src="" alt="" />
       </div>
       <p class="inst">
@@ -114,13 +117,13 @@
             } else {
               boxElement.classList.add("fade-in");
 
-              const imgurl = data[1].track.share.image;
+              const imgurl = data[1].track.images.coverart;
               console.log(data);
 
               Songimg.src = imgurl;
-              // Songimg.style.display = "block";
+              Songimg.style.display = "block";
               //   console.log(data[1].share.tract)
-              status.textContent = `Song Recognized: ${data[1].track.title} by ${data[1].track.subtitle}`;
+              status.textContent = `Song Recognized: ${data[1].track.share.subject} `;
             }
           })
           .catch((error) => {

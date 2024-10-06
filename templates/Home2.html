@@ -4,19 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="Home page" />
     <title>Resona - Music recognizer</title>
+    <link rel="icon" href="/static/applogo.png">
     <link rel="stylesheet" href="{{url_for("static", filename = "home2.css" )}}" />
     <link rel="stylesheet" href="/static/home2.css">
   </head>
     <body>
     <div class="navbar">
-      <div class="logo">Resona</div>
+      <div class="logo"><img class="applogo" src="/static/applogo.png" alt="">Resona</div>
       <div class="list">
         <ul>
           <a href="/"></a><li>Home</li></a>
           <a href="/record"><li>Recording</li></a>
-         <a href="/identify"> <li>Identify</li></a>
+         <a href="/ind"> <li>Identify</li></a>
          <a href="/about"><li>About</li></a>
-          <a href="/"></a><button class="in">?</button></a>
+          <a href="/logout"><button class="in">Logout</button></a>
         </ul>
       </div>
     </div>
@@ -45,14 +46,13 @@
 
           <div class="result">
             <img id="songImage" src="" alt="album-img" />
+           
 
-            <!-- <p class="title"></p>
-            <p class="authors"></p> -->
-            <!-- <a id="ply" href=""><button>play</button></a> -->
           </div>
         
       </div>
     </form>
+    <div id="result"></div>
 
       <p class="inst">
         WAV and Mp3 format are supported (WAV is preffered for accurate results
@@ -67,8 +67,10 @@
     const imag = document.querySelector("#image");
     const form = document.querySelector("form");
     const Songimg = document.querySelector("#songImage" );
-    const title= document.querySelector(".title");
-    const author = document.querySelector(".authors");
+    // const title= document.querySelector(".sngtit");
+   const inst = document.querySelector(".inst");
+
+   const resultDiv = document.getElementById("result");
 
 
 
@@ -81,15 +83,16 @@
         body: formData,
       });
 
-      const resultDiv = document.getElementById("result");
+      const temp = document.querySelector(".temp");
       const result = await response.json();
 
       if (result.error) {
         resultDiv.textContent = `Error: ${result.error}`;
       } else {
-        //formContent.style.display = "none"; 
         boxElement.classList.add("fade-in");
         Songimg.classList.add("fade_out");
+
+        
 
         // console.log(result);
         console.log(result[1]);
@@ -99,15 +102,27 @@
         // const url = result[1].track.share.link;
         //console.log(imaglink);
         songImage.src = imaglink;
-        songImage.style.display = "block";
+        // songImage.style.display = "block";
  
-        const songTitle = result[1].track.title; 
+        const songTitle = result[1].track.share.subject; 
+        const tit = result[1].track.subtitle;
         resultDiv.classList.add("exp");
 
+        song.innerHTML = result[1].track.share.subject;
 
-       //title.textContent+= `Title : ${songTitle}`
+        temp.append(song);
 
-         //resultDiv.textContent = `Title: ${songTitle}`;
+        const song = document.createElement("p");
+
+          const resdiv = document.getElementById("result");
+
+
+          song.innerHTML = result[1].track.share.subject;
+
+          //   resdiv.append(song_cover)
+
+          resdiv.append(song);
+      
       }
     });
   </script>
