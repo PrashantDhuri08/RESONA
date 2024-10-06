@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recognized Songs</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>List of Recognized Songs</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Song Name</th>
+          <th>File Name</th>
+          <th>Source</th>
+          <th>Recognized At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for song in songs %}
+        <tr>
+          <td>{{ song.id }}</td>
+          <td>{{ song.song_name }}</td>
+          <td>{{ song.file_name }}</td>
+          <td>{{ song.source }}</td>
+          <td>{{ song.recognized_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
