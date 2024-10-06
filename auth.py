@@ -93,6 +93,8 @@ def logout():
 def index():
     return render_template('Home2.html')
 
+
+
 @app.route('/upload', methods=['POST'])
 @login_required
 def upload():
@@ -247,7 +249,8 @@ def recognize():
         return jsonify({'error': 'No file uploaded.'}), 400
 
     # Save the uploaded file temporarily
-    unknown_file_path = os.path.join(folder_path, file.filename)
+    temp_fold_path ='./songs/temp'
+    unknown_file_path = os.path.join(temp_fold_path, file.filename)
     file.save(unknown_file_path)
 
     try:

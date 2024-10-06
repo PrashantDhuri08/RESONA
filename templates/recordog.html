@@ -32,8 +32,9 @@
           <a href="/"><li>Home</li></a>
           <a href="/record"><li>Recording</li></a>
           <a href="/ind"> <li>Identify</li></a>
+          <a href="/results"><li>History</li></a>
           <a href="/about"><li>About</li></a>
-          <a href="/"><button class="in">?</button></a>
+          <a href="/logout"><button class="in">Logout</button></a>
         </ul>
       </div>
     </div>
@@ -117,11 +118,11 @@
             } else {
               boxElement.classList.add("fade-in");
 
-              const imgurl = data[1].track.images.coverart;
+              // const imgurl = data[1].track.images.coverart;
               console.log(data);
 
-              Songimg.src = imgurl;
-              Songimg.style.display = "block";
+              // Songimg.src = imgurl;
+              // Songimg.style.display = "block";
               //   console.log(data[1].share.tract)
               status.textContent = `Song Recognized: ${data[1].track.share.subject} `;
             }

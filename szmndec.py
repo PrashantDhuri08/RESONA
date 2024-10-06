@@ -100,6 +100,7 @@ def recognize_song(folder_path, unknown_file_path):
             song_fingerprints.append(fingerprint)
             song_files.append(file)
     
+
     unknown_file_path = convert_to_wav(unknown_file_path)
     unknown_features = extract_features(unknown_file_path)
     unknown_fingerprint = create_fingerprint(unknown_features)
@@ -124,7 +125,8 @@ def recognize():
         return jsonify({'error': 'No file uploaded.'}), 400
 
     # Save the uploaded file temporarily
-    unknown_file_path = os.path.join(folder_path, file.filename)
+    temp_fold_path ='./songs/temp'
+    unknown_file_path = os.path.join(temp_fold_path, file.filename)
     file.save(unknown_file_path)
 
     try:
@@ -135,7 +137,10 @@ def recognize():
         result = f"Error during recognition: {str(e)}"
     finally:
         # Clean up the uploaded file
-        os.remove(unknown_file_path)
+        try:
+            os.remove(unknown_file_path)
+        except Exception as e:
+            print(f"Error deleting file: {str(e)}")  
 
     return jsonify({'result': result})
 
