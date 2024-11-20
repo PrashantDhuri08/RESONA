@@ -102,7 +102,7 @@ def logout():
 @app.route('/')
 @login_required
 def index():
-    return render_template('Home.html')
+    return render_template('Home2.html')
 
 
 
