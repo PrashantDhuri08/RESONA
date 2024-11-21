@@ -75,14 +75,9 @@ pip install -r requirements.txt   # or install packages individually
 ```
 
 
-### Create a SQLite database:
-```bash
-   sqlite3 song.db
-```
-
 ### Run the application:
 ```bash
-   python auth.py
+   python app.py
 ```
 
 ### Step 5: Deactivate the virtual environment
