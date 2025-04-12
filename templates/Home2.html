@@ -17,13 +17,13 @@
           <a href="/record"><li>Recording</li></a>
          <a href="/ind"> <li>Identify</li></a>
          <a href="/results"><li>History</li></a>
-         <a href="/about"><li>About</li></a>
+         <!-- <a href="/about"><li>About</li></a> -->
           <a href="/logout"><button class="in">Logout</button></a>
         </ul>
       </div>
     </div>
 
-    <form action="/upload" method="post" enctype="multipart/form-data" class="form-content">
+    <form action="/upload" method="post" enctype="multipart/form-data" class="form-content" id="myform">
 
     <div class="content">
       <div class="box">
@@ -48,12 +48,11 @@
           <div class="result">
             <img id="songImage" src="" alt="album-img" />
            
-
           </div>
         
       </div>
     </form>
-    <div id="result"></div>
+    <div id="result" ></div>
 
       <p class="inst">
         WAV and Mp3 format are supported (WAV is preffered for accurate results
@@ -63,6 +62,8 @@
   </body>
 
   <script>
+
+    const Head = document.querySelector(".Head");
 
     const boxElement = document.querySelector(".box");
     const imag = document.querySelector("#image");
@@ -93,36 +94,20 @@
         boxElement.classList.add("fade-in");
         Songimg.classList.add("fade_out");
 
-        
+        const form = document.querySelector("#myform");
 
-        // console.log(result);
-        console.log(result[1]);
 
-        console.log(result[1].track.share.subject);
+        // update the song image and song title
         const imaglink = result[1].track.share.image;
-        // const url = result[1].track.share.link;
-        //console.log(imaglink);
-        songImage.src = imaglink;
-        // songImage.style.display = "block";
- 
-        const songTitle = result[1].track.share.subject; 
-        const tit = result[1].track.subtitle;
-        resultDiv.classList.add("exp");
+        Songimg.src = imaglink;
 
-        song.innerHTML = result[1].track.share.subject;
-
-        temp.append(song);
+        const songTitle = result[1].track.share.subject;  
+        Head.textContent = songTitle;  
 
         const song = document.createElement("p");
+        song.innerHTML = songTitle;
 
-          const resdiv = document.getElementById("result");
-
-
-          song.innerHTML = result[1].track.share.subject;
-
-          //   resdiv.append(song_cover)
-
-          resdiv.append(song);
+        resultDiv.append(song);
       
       }
     });
