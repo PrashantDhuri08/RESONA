@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="Recording page" />
+    <title>Audio Recorder - ReSoNa</title>
+    <link rel="stylesheet" href="/static/record.css">
+    <link rel="stylesheet" href="{{url_for("static", filename = "record.css" )}}" />
+
+    <style>
+      .controls {
+        margin: 20px;
+      }
+      #recordButton,
+      #stopButton,
+      #recognizeButton {
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="logo">Resona</div>
+      <div class="list">
+        <ul>
+          <a href="/"></a><li>Home</li></a>
+          <a href="/rec"></a><li>Recording</li></a>
+         <a href="/ind"> <li>Identify</li></a>
+         <a href="/about"><li>About</li></a>
+          <a href="/"></a><button class="in">?</button></a>
+        </ul>
+      </div>
+    </div>
+    <div class="content">
+      <div class="box">
+    <h1>Audio Recorder</h1>
+    <div class="controls">
+      <button id="recordButton">Start Recording</button>
+      <button id="stopButton" disabled>Stop Recording</button>
+      <button id="recognizeButton" disabled>Recognize Song</button>
+    </div>
+    <div class="result">
+      <img id="songImage" src="" alt="album-img" />
+      <p >loremmm</p>
+    </div>
+    
+  </div>
+  </div>
+
+    <script>
+      let recordButton = document.getElementById("recordButton");
+      let stopButton = document.getElementById("stopButton");
+      let recognizeButton = document.getElementById("recognizeButton");
+      let status = document.getElementById("status");
+      const Songimg = document.querySelector("#songImage" );
+
+
+      let audioBlob = null;
+      let mediaRecorder;
+
+      // Start recording
+      recordButton.addEventListener("click", function () {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+          status.textContent = "Status: Recording...";
+          recordButton.disabled = true;
+          stopButton.disabled = false;
+
+          let audioChunks = [];
+          mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+          };
+
+          mediaRecorder.onstop = () => {
+            audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
+            status.textContent = "Status: Recording Stopped";
+            stopButton.disabled = true;
+            recognizeButton.disabled = false;
+          };
+        });
+      });
+
+      // Stop recording
+      stopButton.addEventListener("click", function () {
+        mediaRecorder.stop();
+      });
+
+      // Recognize song using the backend
+      recognizeButton.addEventListener("click", function () {
+        if (!audioBlob) {
+          alert("No audio recorded!");
+          return;
+        }
+
+        // status.textContent = "Status: Recognizing...";
+        console.log("recognizingggg");
+
+        let formData = new FormData();
+        formData.append("file", audioBlob, "audio.mp3");
+
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              status.textContent = `Error: ${data.error}`;
+            } else {
+              console.log(data);
+              //   console.log(data[1].share.tract)
+              const imaglink = data[1].track.share.image;
+              // const url = result[1].track.share.link;
+              //console.log(imaglink);
+              songImage.src = imaglink;
+              songImage.style.display = "block";
+              status.textContent = `Song Recognized: ${data[1].track.title} by ${data[1].track.subtitle}`;
+            }
+          })
+          .catch((error) => {
+            status.textContent = `Error: ${error.message}`;
+          });
+      });
+    </script>
+  </body>
+</html>

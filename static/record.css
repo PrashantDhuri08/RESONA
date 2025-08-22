@@ -1,0 +1,181 @@
+* {
+  margin: 0;
+  font-size: large;
+}
+
+.applogo {
+  height: 40px;
+  width: 40px;
+}
+.navbar {
+  border-bottom: solid rgb(106, 110, 100);
+  display: flex;
+  width: 100vw;
+  background-color: rgb(25, 27, 26);
+  height: 80px;
+  color: azure;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.in {
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+  margin-right: 10px;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.in:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 30px;
+}
+
+ul {
+  display: flex;
+  align-items: center;
+}
+
+li {
+  list-style: none;
+  padding: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+li:hover {
+  color: rgb(140, 140, 140);
+}
+
+.content {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(22, 19, 19);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.inst {
+  font-weight: lighter;
+  font-size: 15px;
+  margin-top: 20px;
+  color: rgb(255, 255, 255);
+}
+
+.box {
+  position: relative;
+  height: 60%;
+  width: 70%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  background-image: url(/static/Logo.jpg);
+  background-size: cover;
+  transition: 0.6s ease-in;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  /* opacity: 1; */
+
+  max-height: 70%; /* Initially no height */
+
+  max-width: 70%;
+  overflow: hidden;
+  transition: 4s ease-out, max-width 1s ease-in-out, max-height 1s ease-in-out;
+}
+
+.box.fade-in {
+  max-width: 45%;
+  /* opacity: 1; Full visibility when animation completes */
+  max-height: 90%;
+}
+/* .result {
+    height: 10%;
+    transition: height 1s ease-in-out;
+  }
+  .result.exp {
+    height: 100%;
+  } */
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+#songImage {
+  opacity: 0;
+  transition: 0.1s ease-in-out, opacity 1s ease-in-out;
+}
+
+#songImage.fade_out {
+  opacity: 1;
+}
+
+.box.fade-in {
+  max-width: 45%;
+  /* opacity: 1; Full visibility when animation completes */
+  max-height: 90%;
+}
+
+h1 {
+  font-size: 46px;
+  text-shadow: 2px 2px grey;
+  color: rgb(188, 163, 163);
+}
+
+p {
+  color: rgb(208, 187, 187);
+  font-size: 32px;
+}
+
+/* button {
+  height: 40px;
+  width: fit-content;
+  border-radius: 20px;
+  background-color: rgb(99, 110, 107);
+  box-shadow: 2px 2px;
+  border: none;
+} */
+
+#songImage {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+}
+#recordButton,
+#stopButton,
+#recognizeButton {
+  color: rgb(39, 149, 112);
+  background-color: rgb(30, 28, 28);
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+#recognizeButton {
+  display: block;
+  background-color: rgb(25, 17, 36);
+  color: rgb(157, 59, 59);
+}
+
+#status {
+  color: rgb(33, 33, 33);
+  font-size: 30px;
+}

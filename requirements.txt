@@ -1,0 +1,9 @@
+Flask
+Gunicorn
+Flask-SQLAlchemy
+Flask-Login
+Werkzeug
+ShazamAPI
+librosa
+numpy
+pydub
